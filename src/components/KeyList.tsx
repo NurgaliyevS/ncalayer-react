@@ -19,10 +19,6 @@ interface KeyListProps {
 }
 
 const KeyList: React.FC<KeyListProps> = ({ client, state, setState }) => {
-  const handleKeyAliasChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setState({ ...state, keyAlias: extractKeyAlias(e.target.value) })
-  }
-
   const handleKeyAliasClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -47,7 +43,6 @@ const KeyList: React.FC<KeyListProps> = ({ client, state, setState }) => {
                 if (isNullOrEmpty(el)) return
                 keys.push(el)
               })
-
             setState({
               ...state,
               method: client.method,
@@ -73,7 +68,7 @@ const KeyList: React.FC<KeyListProps> = ({ client, state, setState }) => {
   return (
     <div className="KeyList">
       <Label>Список ключей</Label>
-      <Select onChange={handleKeyAliasChange}>
+      <Select disabled>
         {state.keys.map((v, i) => {
           return (
             <option key={i} value={v}>

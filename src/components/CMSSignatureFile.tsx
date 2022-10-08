@@ -1,7 +1,12 @@
 import React from "react"
 import AppState, { CheckState } from "../state"
-import Client, { Response } from "@seithq/ncalayer"
-import { checkInputs, ValidationType, handleError } from "../helper"
+import Client, { extractKeyAlias, Response } from "@seithq/ncalayer"
+import {
+  checkInputs,
+  ValidationType,
+  handleError,
+  isNullOrEmpty,
+} from "../helper"
 import SignatureCheck from "./Fields/SignatureCheck"
 import Button from "./Fields/Button"
 import Input from "./Fields/Input"
@@ -29,6 +34,7 @@ const CMSSignatureFile: React.FC<CMSSignatureFileProps> = ({
         ...state,
         method: client.method,
         cmsFilePath: resp.getResult(),
+        path: resp.getResult(),
       })
     })
   }
@@ -39,9 +45,7 @@ const CMSSignatureFile: React.FC<CMSSignatureFileProps> = ({
     setState({ ...state, cmsFileSignatureFlag: e.currentTarget.checked })
   }
 
-  const handleCMSSignatureFromFileClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleCMSSignatureFromFileClick = () => {
     const ok = checkInputs({
       path: state.path,
       alias: state.alias,
@@ -103,7 +107,6 @@ const CMSSignatureFile: React.FC<CMSSignatureFileProps> = ({
 
               return
             }
-
             setState({
               ...state,
               method: client.method,
