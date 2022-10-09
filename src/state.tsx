@@ -16,12 +16,7 @@ interface AppState {
   keyAlias: string
   keys: string[]
   lang: string
-  notBefore: string
-  notAfter: string
-  subjectDN: string
-  issuerDN: string
   oid: string
-  rdn: string
   // cms signature form file
   cmsFilePath: string
   cmsFileSignatureFlag: boolean
@@ -41,12 +36,7 @@ export const initAppState = (): AppState => {
     keyAlias: "",
     keys: [],
     lang: "ru",
-    notBefore: "",
-    notAfter: "",
-    subjectDN: "",
-    issuerDN: "",
     oid: "2.5.4.3",
-    rdn: "",
     // cms signature form file
     cmsFilePath: "",
     cmsFileSignatureFlag: false,

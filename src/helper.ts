@@ -56,8 +56,6 @@ export enum ValidationType {
   Password = "password",
   PasswordAttemps = "passwordAttempts",
   KeyType = "keyType",
-  RDN = "rdn",
-  XML = "xml",
   Signature = "signature",
 }
 
@@ -82,27 +80,6 @@ export function handleError(resp: Response, type: ValidationType): void {
   if (type === ValidationType.KeyType) {
     if (resp.isKeyTypeError()) {
       alert("Ключи не найдены. Попробуйте выбрать другой тип ключа")
-      return
-    }
-  }
-
-  if (type === ValidationType.RDN) {
-    if (resp.isRdnNotFoundError()) {
-      alert("Ключ не содержит данный параметр")
-      return
-    }
-  }
-
-  if (type === ValidationType.XML) {
-    if (resp.isXmlParseError()) {
-      alert("Невалидный формат XML")
-      return
-    }
-  }
-
-  if (type === ValidationType.Signature) {
-    if (resp.isSignatureValidationError()) {
-      alert("Ошибка валидации XML")
       return
     }
   }

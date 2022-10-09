@@ -2,9 +2,7 @@ import React, { useState, useEffect, useRef } from "react"
 import AppState, { initAppState } from "./state"
 import Client from "@seithq/ncalayer"
 import Layout from "./components/Layout"
-import StoragePath from "./components/StoragePath"
 import Password from "./components/Password"
-import KeyList from "./components/KeyList"
 import CMSSignatureFile from "./components/CMSSignatureFile"
 import Box from "./components/Fields/Box"
 
@@ -14,7 +12,6 @@ const App: React.FC = () => {
 
   // state
   const [ready, setReady] = useState(false)
-  // const [method, setMethod] = useState<MethodName>(MethodName.None)
 
   // input state
   const [state, setState] = useState<AppState>(initAppState())
@@ -54,9 +51,7 @@ const App: React.FC = () => {
       <Layout ready={ready} state={state}>
         <Box>
           <CMSSignatureFile client={client} state={state} setState={setState} />
-          <StoragePath path={state.path} />
           <Password state={state} setState={setState} />
-          <KeyList client={client} state={state} setState={setState} />
         </Box>
       </Layout>
     </div>

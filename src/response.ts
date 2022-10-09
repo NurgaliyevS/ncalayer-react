@@ -5,8 +5,6 @@ export enum ValidationType {
   Password = "password",
   PasswordAttemps = "passwordAttempts",
   KeyType = "keyType",
-  RDN = "rdn",
-  XML = "xml",
   Signature = "signature",
 }
 
@@ -42,19 +40,11 @@ export default class Response {
   }
 
   public IsWrongPassword(): boolean {
-    return this.errorCode === "WRONG_PASSWORD"
+    return this.errorCode === "Не правильный пароль"
   }
 
   public IsWrongKeyType(): boolean {
     return this.errorCode === "EMPTY_KEY_LIST"
-  }
-
-  public IsRDNNotFound(): boolean {
-    return this.errorCode === "RDN_NOT_FOUND"
-  }
-
-  public IsWrongXml(): boolean {
-    return this.errorCode === "XML_PARSE_EXCEPTION"
   }
 
   public IsWrongSignature(): boolean {
@@ -82,27 +72,6 @@ export default class Response {
     if (type === ValidationType.KeyType) {
       if (this.IsWrongKeyType()) {
         alert("Ключи не найдены. Попробуйте выбрать другой тип ключа")
-        return
-      }
-    }
-
-    if (type === ValidationType.RDN) {
-      if (this.IsRDNNotFound()) {
-        alert("Ключ не содержит данный параметр")
-        return
-      }
-    }
-
-    if (type === ValidationType.XML) {
-      if (this.IsWrongXml()) {
-        alert("Невалидный формат XML")
-        return
-      }
-    }
-
-    if (type === ValidationType.Signature) {
-      if (this.IsWrongSignature()) {
-        alert("Ошибка валидации XML")
         return
       }
     }

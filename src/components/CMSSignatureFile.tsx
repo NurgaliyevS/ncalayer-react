@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import AppState, { CheckState } from "../state"
 import Client, { extractKeyAlias, Response } from "@seithq/ncalayer"
 import {
@@ -43,6 +43,50 @@ const CMSSignatureFile: React.FC<CMSSignatureFileProps> = ({
     e: React.MouseEvent<HTMLInputElement, MouseEvent>
   ) => {
     setState({ ...state, cmsFileSignatureFlag: e.currentTarget.checked })
+  }
+
+  const handleKeyAliasClick = () => {
+    const ok = checkInputs({
+      path: state.path,
+      alias: state.alias,
+      password: state.password,
+    })
+    if (ok) {
+      client.getKeys(
+        state.alias,
+        state.path,
+        state.password,
+        state.keyType,
+        (resp: Response) => {
+          if (resp.isOk()) {
+            const keys: string[] = []
+            resp
+              .getResult()
+              .split("\n")
+              .forEach(el => {
+                if (isNullOrEmpty(el)) return
+                keys.push(el)
+              })
+            setState({
+              ...state,
+              method: client.method,
+              keys: keys,
+              keyAlias: keys.length > 0 ? extractKeyAlias(keys[0]) : "",
+            })
+
+            return
+          }
+
+          setState({ ...state, keys: [], keyAlias: "" })
+          handleError(
+            resp,
+            ValidationType.Password &&
+              ValidationType.PasswordAttemps &&
+              ValidationType.KeyType
+          )
+        }
+      )
+    }
   }
 
   const handleCMSSignatureFromFileClick = () => {
@@ -126,6 +170,12 @@ const CMSSignatureFile: React.FC<CMSSignatureFileProps> = ({
     }
   }
 
+  useEffect(() => {
+    if (state.keys.length) {
+      handleCMSSignatureFromFileClick()
+    }
+  }, [state.keyAlias, state.keys])
+
   return (
     <div className="CMSSignatureFile">
       <Label method="createCMSSignatureFromFile">
@@ -136,9 +186,7 @@ const CMSSignatureFile: React.FC<CMSSignatureFileProps> = ({
       <Button onClick={handleCMSSignatureFromFileChoose}>Выбрать файл</Button>
       <Spacer point="2" />
       <div className="flex flex-row justify-between">
-        <Button onClick={handleCMSSignatureFromFileClick}>
-          Подпиcать данные
-        </Button>
+        <Button onClick={handleKeyAliasClick}>Подпиcать данные</Button>
         <CheckBox
           onClick={handleCMSSignatureFromFileToggle}
           text="Включить данные в подпись"
