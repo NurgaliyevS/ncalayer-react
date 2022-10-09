@@ -28,10 +28,6 @@ interface AppState {
   cmsFileSignatureSigned: string
   cmsFileSignatureValid: CheckState
   cmsFileSignatureMessage: string
-  // // hash
-  // toHash: string
-  // alg: string
-  // hashed: string
 }
 
 export const initAppState = (): AppState => {
@@ -40,7 +36,7 @@ export const initAppState = (): AppState => {
     version: "",
     alias: "PKCS12",
     path: "",
-    password: "Qwerty12",
+    password: "",
     keyType: "SIGN",
     keyAlias: "",
     keys: [],
@@ -57,10 +53,6 @@ export const initAppState = (): AppState => {
     cmsFileSignatureSigned: "",
     cmsFileSignatureValid: CheckState.NotValidated,
     cmsFileSignatureMessage: "Не проверено",
-    // // hash
-    // toHash: "",
-    // alg: "SHA1",
-    // hashed: "",
   }
 }
 
